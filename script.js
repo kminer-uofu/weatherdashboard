@@ -1,6 +1,8 @@
 $(document).ready(function () {
+ 
     $("#search-button").on("click", function () {
         var searchValue = $("#search-value").val();
+        
 
         // clear input box
         $("#search-value").val("");
@@ -18,9 +20,11 @@ $(document).ready(function () {
     }
 
     function searchWeather(searchValue) {
+        var weatherApi = "http://api.openweathermap.org/data/2.5/weather?q=" + searchValue + "&appid=61a551a64870605aba69f3d81482dd9f&units=imperial";
+
         $.ajax({
             type: "GET",
-            url: "https://api.openweathermap.org/data/2.5/weather?q=" + searchValue + "&appid=61a551a64870605aba69f3d81482dd9f&units=imperial",
+            url: weatherApi,
             dataType: "json",
             success: function (data) {
                 if (history.indexOf(searchValue) === -1) {
@@ -50,10 +54,13 @@ $(document).ready(function () {
             }
         });
     };
+
     function getForecast(searchValue) {
+        var forecastApi = "http://api.openweathermap.org/data/2.5/forecast?q=" + searchValue + "&appid=61a551a64870605aba69f3d81482dd9f&units=imperial";
+
         $.ajax({
             type: "GET",
-            url: "https://api.openweathermap.org/data/2.5/forecast?q=" + searchValue + "&appid=61a551a64870605aba69f3d81482dd9f&units=imperial",
+            url: forecastApi,
             dataType: "json",
             success: function(data) {
                 $("#forecast").html("<h4 class=\"mt-3\">5-Day Forecast:</h4>").append("<div class=\"row\">");
@@ -79,9 +86,11 @@ $(document).ready(function () {
         });
     }
     function getUVIndex(lat, lon){
+        var latlonApi = "http://api.openweathermap.org/data/2.5/uvi?appid=61a551a64870605aba69f3d81482dd9f&lat=" + lat + "&lon=" + lon;
+    
         $.ajax({
             type: "GET",
-            url: "https://api.openweathermap.org/data/2.5/uvi?appid=61a551a64870605aba69f3d81482dd9f&lat=" + lat + "&lon=" + lon,
+            url: latlonApi,
             dataType: "json",
             success: function(data) {
                 var uv = $("<p>").text("UV Index: ");
@@ -102,7 +111,7 @@ $(document).ready(function () {
         });
     }
 
-    var history = JSON.parse(window.localStorage.getItem("history")) || [];
+    var history = JSON.parse(window.localStorage.getItem(".history")) || [];
 
     if (history.length > 0) {
         searchWeather(history[history.lenth-1]);
