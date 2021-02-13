@@ -14,12 +14,16 @@ $(document).ready(function () {
         searchWeather($(this).text());
     });
 
-    function makeRow(text) {
-        var li = $("<li>").addClass("list-group-item list-group-item-action").text(text);
+    function makeRow(searchValue) {
+        console.log("This is a test");
+        var li = $("<li>").addClass("list-group-item list-group-item-action").text(searchValue);
         $(".history").append(li);
     }
 
     function searchWeather(searchValue) {
+        if (!searchValue){
+
+        }
         var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + searchValue + "&appid=61a551a64870605aba69f3d81482dd9f&units=imperial";
 
         $.ajax({
@@ -114,7 +118,7 @@ $(document).ready(function () {
     var history = JSON.parse(window.localStorage.getItem("history")) || [];
 
     if (history.length > 0) {
-        searchWeather(history[history.lenth-1]);
+        searchWeather(history[history.length-1]);
     }
 
     for (var i = 0; i < history.length; i++){
